@@ -10,6 +10,10 @@ int main() {
     int T, P, R; 
     cin >> T;
     for (int t = 1; t <= T; t++) {
+        memset(free_resources, 0, sizeof free_resources);
+        memset(held_resources, 0, sizeof held_resources);
+        memset(requested_resources, 0, sizeof requested_resources);
+        memset(finished, 0, sizeof finished);
         // input
         {
             cin >> P >> R;
@@ -26,6 +30,7 @@ int main() {
         }
         vector<int> order;
         int still_requesting = P;
+        // banker's algo
         for (int p = 0; p < P; p++) {
             bool found = 0;
             for (int i = 0; i < P; i++) {
@@ -46,11 +51,20 @@ int main() {
             }
         }
         if (still_requesting == 0) {
-            cout << "NO DEADLOCKS OCCURED. PROCESS ORDER:\n";
-            for (int x : order) cout << x << (x==order.back() ? '\n' : ' ');
+            cout << "NO DEADLOCKS OCCURED.\n";
         } else {
             cout << "DEADLOCK OCCURED.\n";
+            vector<int> unfinished_processes;
+            for (int i = 0; i < P; i++) 
+                if (not finished[i]) 
+                    unfinished_processes.push_back(i);
+            cout << "DEADLOCKED PROCESSES: ";
+            for (int x : unfinished_processes) cout << x+1 << (x==unfinished_processes.back() ? '\n' : ' ');
+            cout << "TERMINATED ALL. RUNNING PROCESSES BY PROCESS ID.\n";
+            for (int u : unfinished_processes) order.push_back(u+1);
         }
+        cout << "PROCESS ORDER:\n";
+        for (int x : order) cout << x << (x==order.back() ? '\n' : ' ');
         
     }
     return 0;
