@@ -53,6 +53,7 @@ int main() {
                 }        
             }
         }
+        cout << "Test Case #" << t << ":\n";
         if (still_requesting == 0) {
             cout << "NO DEADLOCKS OCCURED.\n";
         } else {
@@ -84,7 +85,7 @@ int main() {
         }
         cout << "PROCESS ORDER:\n";
         for (int x : order) cout << x << (x==order.back() ? '\n' : ' ');
-        
+        cout << endl;
     }
     return 0;
 }
